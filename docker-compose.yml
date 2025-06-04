@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  auth_service:
+    build: ./backend/auth_service  
+    ports:
+      - "8001:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+
+  user_service:
+    build: ./backend/user_service
+    ports:
+      - "8002:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+
+  appointment_service:
+    build: ./backend/appointment_service
+    ports:
+      - "8003:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+
+  gateway:
+    build: ./backend/gateway
+    ports:
+      - "8000:8000"
+    depends_on:
+      - auth_service
+      - user_service
+      - appointment_service
+
+  frontend:
+    build: ./frontend/vite-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway
+
+volumes:
+  postgres_data:
