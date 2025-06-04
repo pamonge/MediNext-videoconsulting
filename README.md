@@ -5,7 +5,7 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 ---
 
 ## 📦 Estructura del Proyecto
-.
+```
 ├── backend
 │ ├── appointment_service # Gestión de turnos
 │ ├── auth_service # Servicio de autenticación
@@ -14,7 +14,7 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 ├── docker-compose.yml # Orquestador de servicios
 └── frontend
 └── vite-app # Aplicación React con Vite
-
+```
 ## 🚀 Tecnologías Usadas
 
 ### Backend
