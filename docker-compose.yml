@@ -48,7 +48,7 @@ services:
       - user_service
       - appointment_service
     environment:
-    SECRET_KEY: supersecreto123
+      - SECRET_KEY=supersecreto123
 
   frontend:
     build: ./frontend/vite-app
