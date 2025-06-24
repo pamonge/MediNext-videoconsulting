@@ -28,3 +28,11 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 - ⚛️ React + Vite
 - 🎨 CSS Modules / Tailwind (opcional)
 - 📦 Axios (para consumo de APIs)
+
+#### Levantar la app
+
+sudo docker-compose up --build
+
+#### Corroborar que los servicios esten activos
+
+sudo docker-compose ps
