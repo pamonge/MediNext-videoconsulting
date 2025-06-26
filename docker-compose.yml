@@ -54,6 +54,10 @@ services:
     build: ./frontend/vite-app
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend/vite-app:/app  # Sincroniza todo el proyecto
+      - /app/node_modules         # Evita sobrescribir node_modules
+    command: npm run dev
     depends_on:
       - gateway
 
