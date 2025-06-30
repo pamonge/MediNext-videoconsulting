@@ -1,5 +1,5 @@
 # Imagen base con Node.js
-FROM node:20-alpine3.19
+FROM node:20-alpine3.20
 
 # Actualiza npm primero
 RUN npm install -g npm@latest
