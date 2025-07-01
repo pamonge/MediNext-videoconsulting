@@ -4,10 +4,10 @@ import { personalDataComponentStyles } from '../../styles/personalDataComponentS
 
 export const PersonalDataComponent = ({ userImg = defaultUser }) => {
     const [ formData, setFormData ] = useState({
-        'name' : '',
-        'lastName' : '',
-        'dni' : '',
-        'date' : ''
+        'name' : 'Juan',
+        'lastName' : 'Perez',
+        'dni' : '23456789',
+        'date' : '01/01/00'
     })
     return (
         <div className={personalDataComponentStyles.personalDataContainer} >
@@ -19,22 +19,22 @@ export const PersonalDataComponent = ({ userImg = defaultUser }) => {
                     <img className={personalDataComponentStyles.img} src={ userImg } alt="user image" />
                 </div>
             
-                <div>
-                    <div>
+                <div className={personalDataComponentStyles.formColumn}>
+                    <div className={personalDataComponentStyles.row}>
                         <label className={personalDataComponentStyles.label} htmlFor="name">Nombre</label>
-                        <input className={personalDataComponentStyles.input} type="text" name='name' id='name' value={formData.name}/>
+                        <span className={personalDataComponentStyles.span} name='name' id='name' >{formData.name}</span>
                     </div>
-                    <div>
+                    <div className={personalDataComponentStyles.row}>
                         <label className={personalDataComponentStyles.label} htmlFor="lastName">Apellido</label>
-                        <input className={personalDataComponentStyles.input} type="text" name='lastName'id='lastName' value={formData.lastName}/>
+                        <span className={personalDataComponentStyles.span} name='lastName'id='lastName'>{formData.lastName}</span>
                     </div>
-                    <div>
+                    <div className={personalDataComponentStyles.row}>
                         <label className={personalDataComponentStyles.label} htmlFor="dni">DNI</label>
-                        <input className={personalDataComponentStyles.input} type="number" name="dni" id="dni" value={formData.dni}/>
+                        <span className={personalDataComponentStyles.span} name="dni" id="dni">{formData.dni}</span>
                     </div>
-                    <div>
+                    <div className={personalDataComponentStyles.row}>
                         <label className={personalDataComponentStyles.label} htmlFor="dateBirth">Fecha de nacimiento</label>
-                        <input className={personalDataComponentStyles.input} type="text" name="dateBirth" id="dateBirth" value={formData.date}/>
+                        <span className={personalDataComponentStyles.span} name="dateBirth" id="dateBirth">{formData.date}</span>
                     </div>
                 </div>
             </div>

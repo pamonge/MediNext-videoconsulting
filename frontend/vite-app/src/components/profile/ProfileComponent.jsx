@@ -14,10 +14,8 @@ export const ProfileComponent = () => {
         <div className={profileComponentStyles.container} >
             <div className={profileComponentStyles.components}>
               	<PersonalDataComponent />
-            </div>
-			<div className={profileComponentStyles.components}>
 				<AffiliateComponent />
-			</div>
+            </div>
         </div>
     </div>
   )
