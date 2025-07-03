@@ -6,7 +6,6 @@ import { LoginComponent } from './components/authentification/LoginComponent';
 import { RegisterComponent } from './components/authentification/RegisterComponent';
 import { ProfileComponent } from './components/profile/ProfileComponent';
 
-
 function App() {
   return (
     <>

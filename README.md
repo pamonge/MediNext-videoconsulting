@@ -1,4 +1,4 @@
-# 🩺 Videoconsultas médicas — Plataforma Integral de Videoconsultas Médicas
+# 🩺 Plataforma Integral de Videoconsultas Médicas
 
 Bienvenido a una plataforma moderna, escalable y segura para gestionar videoconsultas médicas en tiempo real. Este proyecto usa una arquitectura de microservicios en Python (FastAPI), frontend en React con Vite y despliegue mediante Docker Compose.
 
@@ -26,7 +26,7 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 
 ### Frontend
 - ⚛️ React + Vite
-- 🎨 CSS Modules / Tailwind (opcional)
+- 🎨 Tailwind CSS
 - 📦 Axios (para consumo de APIs)
 
 #### Levantar la app
