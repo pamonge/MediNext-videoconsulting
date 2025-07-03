@@ -1,40 +1,39 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { NavBarComponent } from '../general/NavBarComponent';
+import { homeComponentStyles } from '../../styles/homeComponentStyles';
+import check from '../../assets/icons/blue-check.png'
+import { appServicesData } from '../../data/appServicesData';
+import { ContactComponent } from '../general/ContactComponent';
 
 export const HomeComponent = ({ nombre }) => {
+	const [ serviceData, setServiceData ] = useState([]);
+	useEffect(() => {
+		setServiceData(appServicesData)
+	}, []);
 	return (
 		<div>
-		<NavBarComponent />
-		<div className='flex flex-col p-4 items-center'>
-			<h1 className='text-center font-bold text-blue-600 text-4xl mt-4 mb-10'>MediNext Salud</h1>
-			<h2 className='text-center text-xl m-4' >Bienvenido {nombre || 'Juan'} a la aplicación de autogestion de MediNext Salud</h2>
-			<div className='flex flex-col w-md text-gray-700'>
-				<p >
-					Por intermedio de nuestra aplicación usted podrá:
-					<ul className='flex flex-col gap-1 ml-6 list-image-[url(/src/assets/icons/blue-check.png)] list-inside'>
-						<li className=''>Gestionar sus planes,</li>
-						<li>Realizar video consultas medicas</li>
-						<li>Gestionar beneficiarios</li>
-						<li>Ver sus ultimos pagos realizados</li>
-						<li>Consultar el estado de su cobertura</li>
-						<li>Editar su perfil personal</li>
-						<li>Solicitar atención personalizada con nuestros asesores</li>
-						<li>Ver el estado de sus autorizaciones</li>
+			<NavBarComponent />
+			<div className={homeComponentStyles.containerNavBar}>
+				<h1 className={homeComponentStyles.title}>MediNext Salud</h1>
+				<h2 className={homeComponentStyles.welcomeMsj} >Bienvenido {nombre || 'Juan'} a la aplicación de autogestion de MediNext Salud</h2>
+				<div className={homeComponentStyles.textContainer}>
+					<p >
+						Por intermedio de nuestra aplicación usted podrá:
+					</p>
+					<ul className={homeComponentStyles.uList}>
+						{/* Informacion obtenida desde src/data/appServicesData */}
+						{serviceData.map(
+							(data, index) => (
+								<li key={index} className={homeComponentStyles.listItem}> 
+									<img className={homeComponentStyles.image} src={check} alt="check icon" />
+									{data}
+								</li>
+							)
+						)}		
 					</ul>
-				</p>
-				<p>
-					Tenga persente nuestros medios de comunicación
-					<ul>
-						<li>Email: medinextsalud@gmail.com,</li>
-						<li>Telefono: 0261-7459901,</li>
-						<li>Envienos un correo o por Whatsapp desde nuestro sitio <a href="https://www.medinextsalud.com">MediNext Salud</a></li>
-						<li>o visite nuestras oficinas en: <a href="https://maps.app.goo.gl/8oDs61mKNDh8Vqbd7">Av. Colon 136, oficina 10, Mendoza, CP: M5502</a></li>
-					</ul>
-				</p>
+					<ContactComponent />
+				</div>
 			</div>
-			
-		</div>
 		</div>
 	)
 };
