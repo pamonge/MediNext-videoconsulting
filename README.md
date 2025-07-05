@@ -36,3 +36,7 @@ sudo docker-compose up --build
 #### Corroborar que los servicios esten activos
 
 sudo docker-compose ps
+
+#### Acceder a Swagger por microservicio
+
+http://localhost:800[x]/docs

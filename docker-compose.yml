@@ -38,6 +38,17 @@ services:
       - postgres
     environment:
       DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+  
+  profile_service:
+    build: ./backend/profile_service
+    ports: 
+      - "8004:8000"
+    volumes:
+      - ./backend/profile_service/uploads/profile_pics:/app/uploads/profile_pics
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
 
   gateway:
     build: ./backend/gateway

@@ -18,7 +18,7 @@ def get_db():
 def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, user.username)
     if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
+        raise HTTPException(status_code=400, detail="Usuario ya registrado")
     return crud.create_user(db, user)
 
 @app.get("/users/", response_model=list[schemas.UserOut])

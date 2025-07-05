@@ -10,10 +10,22 @@ def get_user_by_username(db: Session, username: str):
 
 def create_user(db: Session, user: UserCreate):
     hashed_pw = pwd_context.hash(user.password)
-    db_user = User(username=user.username, full_name=user.full_name, role=user.role, hashed_password=hashed_pw)
+    db_user = User(username=user.username, hashed_password=hashed_pw)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+
+    # Crear un perfil básico vacío asociado al nuevo usuario
+    try:
+        response = httpx.post(
+            "http://profile_service:8000/profile/",  #puede ser directamente o vía gateway
+            json={"user_id": db_user.id}
+        )
+        response.raise_for_status()
+    except httpx.RequestError as e:
+        print(f"❌ Error al crear perfil: {e}")
+    except httpx.HTTPStatusError as e:
+        print(f"❌ Error HTTP al crear perfil: {e.response.status_code} - {e.response.text}")
     return db_user
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
