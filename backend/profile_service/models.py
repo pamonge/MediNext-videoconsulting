@@ -30,6 +30,6 @@ class Profile(Base):
     address = Column(String, nullable = True)
     phone = Column(BigInteger, nullable = True)
     role = Column(Enum(RoleEnum), nullable = True)
-    profileImg = Column(String) #Terminar de codificar la subida de img
+    profileImg = Column(String) 
 
     user = relationship("user", back_populates = "profile")

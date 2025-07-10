@@ -50,6 +50,15 @@ services:
     environment:
       DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
 
+  affiliation_service:
+    build: ./backend/affiliation_service
+    ports:
+      - "8005:8000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+
   gateway:
     build: ./backend/gateway
     ports:
