@@ -45,9 +45,9 @@
 
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from . import models, schemas, crud
-from .database import SessionLocal, engine
-from .client.user_client import get_user
+from ./ import models, schemas, crud
+from database import SessionLocal, engine
+from client.user_client import get_user
 
 models.Base.metadata.create_all(bind=engine)
 

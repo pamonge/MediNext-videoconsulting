@@ -1,4 +1,3 @@
-
 export const navBarComponentStyles = {
     navBarContainer : 'bg-white shadow-md',
     navLabel : 'container mx-auto px-4 py-3 flex items-center justify-end',

@@ -1,4 +1,3 @@
-
 export const homeComponentStyles = {
     containerNavBar : 'flex flex-col p-4 items-center',
     title : 'text-center font-bold text-blue-600 text-4xl mt-4 mb-10',

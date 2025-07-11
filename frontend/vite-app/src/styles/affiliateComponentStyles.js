@@ -1,4 +1,3 @@
-
 export const affiliateComponentStyles = {
     container : 'bg-white rounded-lg shadow-md p-6',
     title : 'text-lg font-semibold text-gray-800 mb-4 border-b pb-2',

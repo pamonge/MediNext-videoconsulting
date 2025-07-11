@@ -1,4 +1,3 @@
-
 export const personalDataComponentStyles = {
     personalDataContainer : 'bg-white rounded-lg shadow-md p-6 mb-6',
     title : 'text-lg font-semibold text-gray-800 mb-4 border-b pb-2',

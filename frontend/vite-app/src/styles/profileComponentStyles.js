@@ -1,4 +1,3 @@
-
 export const profileComponentStyles = {
     profileContainer : 'min-h-screen bg-gray-50',
     container : 'container mx-auto px-4 py-8',

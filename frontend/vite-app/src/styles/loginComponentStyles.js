@@ -1,4 +1,3 @@
-
 export const loginComponentStyles = {
     container : 'min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4',
     modal : 'w-full max-w-md bg-white p-8 rounded-lg shadow-md',
