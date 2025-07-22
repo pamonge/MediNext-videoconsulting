@@ -21,7 +21,7 @@ SERVICES = {
     "auth": "http://auth_service:8000",
     "users": "http://user_service:8000",
     "appointments": "http://appointment_service:8000",
-    "profiles": "http://profile_service:8000"
+    "profiles": "http://localhost:8000/profile",
 }
 
 # Cliente HTTP para redirección

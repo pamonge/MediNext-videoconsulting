@@ -5,12 +5,12 @@ services:
     image: postgres:15
     environment:
       POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypass
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   auth_service:
     build: ./backend/auth_service  
@@ -19,7 +19,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+      DATABASE_URL: postgresql://admin:12345@postgres:5434/videocalldb
 
   user_service:
     build: ./backend/user_service
@@ -28,7 +28,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+      DATABASE_URL: postgresql://admin:12345@postgres:5435/videocalldb
 
   appointment_service:
     build: ./backend/appointment_service
@@ -37,18 +37,18 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+      DATABASE_URL: postgresql://admin:12345@postgres:5436videocalldb
   
   profile_service:
     build: ./backend/profile_service
     ports: 
       - "8004:8000"
     volumes:
-      - ./backend/profile_service/uploads/profile_pics:/app/uploads/profile_pics
+      - ./backend/profile_service/profilepics:/app/profilepics
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+      DATABASE_URL: postgresql://admin:12345@postgres:5437/videocalldb
 
   affiliation_service:
     build: ./backend/affiliation_service
@@ -57,7 +57,7 @@ services:
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgresql://myuser:mypass@postgres:5432/mydb
+      DATABASE_URL: postgresql://admin:12345@postgres:5438/videocalldb
 
   gateway:
     build: ./backend/gateway
@@ -67,6 +67,7 @@ services:
       - auth_service
       - user_service
       - appointment_service
+      - profile_service
     environment:
       - SECRET_KEY=supersecreto123
 
