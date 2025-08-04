@@ -1,75 +1,148 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: 12345
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  gateway:
+    build: ./backend/gateway_service
     ports:
-      - "5433:5432"
-
-  auth_service:
-    build: ./backend/auth_service  
-    ports:
-      - "8001:8000"
+      - '8000:8000'
     depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://admin:12345@postgres:5434/videocalldb
-
+      - user_service
+      # - profile_service
+      # - affiliation_service
+      # - plan_service
+      # - payment_service
+      # - medical_history_service
+      # - document_service
+      # - authorization_service
+      
   user_service:
     build: ./backend/user_service
     ports:
-      - "8002:8000"
+      - '8001:8000'
     depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://admin:12345@postgres:5435/videocalldb
-
-  appointment_service:
-    build: ./backend/appointment_service
-    ports:
-      - "8003:8000"
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://admin:12345@postgres:5436videocalldb
+      - user_db
   
+  user_db:
+    image: postgres:15
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: userDB
+      
   profile_service:
     build: ./backend/profile_service
     ports: 
-      - "8004:8000"
-    volumes:
-      - ./backend/profile_service/profilepics:/app/profilepics
+      - '8002:8000'
     depends_on:
-      - postgres
+      - profile_db
+    
+  profile_db:
+    image: postgres:15
+    ports:
+      - '5434:5432'
     environment:
-      DATABASE_URL: postgresql://admin:12345@postgres:5437/videocalldb
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: profileDB
 
   affiliation_service:
     build: ./backend/affiliation_service
-    ports:
-      - "8005:8000"
+    ports: 
+      - '8003:8000'
     depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgresql://admin:12345@postgres:5438/videocalldb
+      - affiliation_db
 
-  gateway:
-    build: ./backend/gateway
+  affiliation_db:
+    image: postgres:15
     ports:
-      - "8000:8000"
-    depends_on:
-      - auth_service
-      - user_service
-      - appointment_service
-      - profile_service
+      - '5435:5432'
     environment:
-      - SECRET_KEY=supersecreto123
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: affiliationDB
+  
+  plan_service:
+    build: ./backend/plan_service
+    ports:
+      - '8004:8000'
+    depends_on:
+      - plan_db
+  
+  plan_db:
+    image: postgres:15
+    ports:
+      - '5436:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: planDB
+  
+  pyment_service:
+    build: ./backend/payment_service
+    ports:
+      - '8005:8000'
+    depends_on:
+      - payment_db
+
+  payment_db:
+    image: postgres:15
+    ports:
+      - '5437:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: paymentDB
+
+  medical_history_service:
+    build: ./backend/medical_history_service
+    ports:
+      - '8006:8000'
+    depends_on:
+      - medical_history_db
+
+  medical_history_db:
+    image: postgres:15
+    ports: 
+      - '5438:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: medical_historyDB
+
+  document_service:
+    build: ./backend/document_service
+    ports:
+      - '8007:8000'
+    depends_on:
+      - document_db
+        
+  document_db:
+    image: postgres:15
+    ports:
+      - '5439:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: documentDB
+
+  authorization_service:
+    build: ./backend/authorization_service
+    ports:
+      - '8008:8000'
+    depends_on:
+      - authorization_db
+  
+  authorization_db:
+    image: postgres:15
+    ports:
+      - '5440:5432'
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: authorizationDB
+
 
   frontend:
     build: ./frontend/vite-app
@@ -81,6 +154,3 @@ services:
     command: npm run dev
     depends_on:
       - gateway
-
-volumes:
-  postgres_data:

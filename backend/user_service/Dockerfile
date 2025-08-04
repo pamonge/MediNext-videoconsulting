@@ -1,14 +1,12 @@
 FROM python:3.11-slim
 
-# Establece el directorio de trabajo dentro del contenedor
+RUN apt-get update && apt-get upgrade -y && apt-get clean
+
 WORKDIR /app
 
-# Copia el archivo de requerimientos y los instala
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el resto del código de la app
 COPY . .
 
-# Comando para arrancar el servidor
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

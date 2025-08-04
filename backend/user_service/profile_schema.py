@@ -6,34 +6,16 @@ class GenderEnum(str, Enum):
     m = 'm' #masculino
     f = 'f' #femenino
 
-GENDER_DB_MAP = {   
-    'm': 'masculino',
-    'f': 'femenino',
-}
-
 class Marital_StatusEnum(str, Enum):
     s = 's' #soltero
     c = 'c' #casado
     d = 'd' #divorciado
     v = 'v' #viudo
 
-MARITAL_STATUS_DB_MAP = {
-    's': 'soltero',
-    'c': 'casado',
-    'd': 'divorciado',  
-    'v': 'viudo',
-}
-
 class RoleEnum(str, Enum):
     a = 'a' #admin
     u = 'u' #usuario
     m = 'm' #medico
-
-ROLAE_DB_MAP = {
-    'a': 'admin',
-    'u': 'usuario',
-    'm': 'medico',
-}
 
 class Profile(BaseModel):
     dni : str = Field(min_length=8, max_length=9, description='DNI del usuario')

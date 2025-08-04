@@ -1,36 +1,21 @@
-from pydantic import BaseModel
-from typing import Optional
 from datetime import date
-import enum
+from enum import Enum
+from pydantic import BaseModel, Field
 
-# Enums
-class StatusEnum(str, enum.Enum):
-    vigente = "v"
-    sin_cobertura = "c"
+class PlanEnum(str, Enum):
+    j = 'j' # jubilado
+    m = 'm' # mediplus
 
-class RelationshipEnum(str, enum.Enum):
-    titular = "t"
-    familiar = "f"
+PLAN_DB_MAP = {
+    'j': 'jubilado',
+    'm': 'mediplus',
+}
 
-# Base común
-class AffiliationBase(BaseModel):
-    discharge_date: Optional[date] = None
-    plan_id: Optional[int] = None
-    status: StatusEnum
-    relationship: RelationshipEnum
-
-# Para crear una afiliación
-class AffiliationCreate(AffiliationBase):
-    beneficiary: int  # user_id obligatorio
-
-# Para actualizar
-class AffiliationUpdate(AffiliationBase):
-    pass
-
-# Para devolver desde la API
-class AffiliationOut(AffiliationBase):
-    affiliate_id: int
-    beneficiary: int
+class Affiliation(BaseModel):
+    dni: str = Field(min_length=8, max_length=9, description='DNI del afiliado')
+    discharge_date: date = Field(description='Fecha de alta del afiliado, YYYY-MM-DD')
+    active: bool = Field(default=True, description='Estado de cobertura del afiliado')
+    plan: PlanEnum = Field(description='Plan del afiliado', example='j o m')
 
     class Config:
-        orm_mode = True
+        from_attributes = True

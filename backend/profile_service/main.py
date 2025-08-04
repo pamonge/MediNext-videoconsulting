@@ -84,6 +84,7 @@ async def update_profile(id: str, profile: Profile, db: db_dependency):
         db.refresh(db_profile)
         return db_profile
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=404, detail=f'Error al actualizar el perfil: {str(e)}')
 
 # Actualiza la imagen de un perfil existente
@@ -106,10 +107,10 @@ async def delete_profile(id: str, db: db_dependency):
     db_profile = db.query(models.Profile).filter(models.Profile.dni == id).first()
     if not db_profile:
         raise HTTPException(status_code=404, detail='Perfil no encontrado o inexistente')
-        try:
-            db.delete(db_profile)
-            db.commit()
-            db.refresh(db_profile)
-            return(f'Perfil con DNI {id} eliminado exitosamente')
-        except Exception as e:
-            raise HTTPException(status_code=404, detail=f'Error al eliminar perfil: {str(e)}')
+    try:
+        db.delete(db_profile)
+        db.commit()
+        db.refresh(db_profile)
+        return (f'Perfil con DNI {id} eliminado exitosamente')
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f'Error al eliminar perfil: {str(e)}')

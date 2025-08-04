@@ -1,10 +1,9 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
+from sqlalchemy.ext.declarative import declarative_base
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+URL_DATABASE = 'postgresql://admin:12345@affiliation_db:5432/affiliationDB'
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(URL_DATABASE)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
