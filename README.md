@@ -7,13 +7,25 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 ## 📦 Estructura del Proyecto
 ```
 ├── backend
-│ ├── appointment_service # Gestión de turnos
-│ ├── auth_service # Servicio de autenticación
-│ ├── gateway # Puerta de enlace (API Gateway)
-│ └── user_service # Gestión de usuarios
-├── docker-compose.yml # Orquestador de servicios
-└── frontend
-└── vite-app # Aplicación React con Vite
+│   ├── affiliation_service
+│   ├── authorization_service
+│   ├── document_service
+│   ├── gateway_service
+│   ├── medical_history_service
+│   ├── payment_service
+│   ├── plan_service
+│   ├── profile_service
+│   └── user_service
+├── docker-compose.yml
+├── frontend
+│   └── vite-app
+├── README.md
+└── venv
+    ├── bin
+    ├── include
+    ├── lib
+    ├── lib64 -> lib
+    └── pyvenv.cfg
 ```
 ## 🚀 Tecnologías Usadas
 
@@ -25,7 +37,8 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 - 🐳 Docker + Docker Compose
 
 ### Frontend
-- ⚛️ React + Vite
+- ⚛️ React + Vite + 
+- 🔄 Redux
 - 🎨 Tailwind CSS
 - 📦 Axios (para consumo de APIs)
 
