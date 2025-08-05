@@ -1,7 +1,12 @@
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from passlib.context import CryptContext
+from security import get_current_user
+from datetime import datetime, timedelta
 from typing import List, Annotated
+from jose import jwt
 from sqlalchemy.orm import Session
-from schemas import User_Profile_Wraper
+from schemas import User_Profile_Wrapper, Token, TokenData
 from user_schema import User
 import models
 from database import engine, SessionLocal
@@ -21,6 +26,42 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+#------------------------  Seguridad  ------------------------
+pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
+SECRET_KEY = 'supersecreto'
+ALGORITHM = 'HS256'
+ACCESS_EXPIRE = 30
+
+def verify_pwd(plain_pwd, hashed_pwd):
+    return pwd_context.verify(plain_pwd, hashed_pwd)
+
+def authenticate_user(db: db_dependency, username: str, password: str):
+    user = db.query(models.User).filter(models.User.username == username).first()
+    if not user:
+        return None
+    if not verify_pwd(password, user.password):
+        return None
+    return user
+
+def create_access_token(data: dict):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_EXPIRE)
+    to_encode.update({'exp': expire})
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+@app.post('/post/token', tags=['auth'], response_model=Token)
+def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = authenticate_user(form_data.username, form_data.password)                                              # <<<<<<<<<<<<<<<<<<<<  authenticate_user
+    if not user:
+        raise HTTPException(status_code=401, detail='Credenciales Invalidas')
+    token = create_access_token({'sub': user.username, 'role': user.role})
+    return {'access_token': token, 'token_type': 'bearer'}
+
+@app.get('/auth/me', tags=['auth'], response_model=TokenData)
+def me(current=Depends(get_current_user)):
+    return current
+#---------------------------------------------------------------
 
 # Retorna todos los usuarios
 @app.get('/get_all', tags=['User'], response_model=List[User])
@@ -42,7 +83,7 @@ async def get_user_by_id(id: str, db: db_dependency):
 
 # Crear un nuevo usuario
 @app.post('/post', tags=['User'], response_model=User)
-async def post_user(request: User_Profile_Wraper, db: db_dependency):
+async def post_user(request: User_Profile_Wrapper, db: db_dependency):
     user_data = request.user
     profile_data = request.profile
 
@@ -60,7 +101,7 @@ async def post_user(request: User_Profile_Wraper, db: db_dependency):
         # Creacion de un nuevo perfil de manera automática al crear un nuevo usuario
         try:
             async with httpx.AsyncClient() as client:
-                await client.post(
+                await client.post(                                                                          #<<<<<<<<<<<<<<<<<<<<<<<<< await
                     'http://profile_service:8000/profile', 
                     json=profile_data.dict()
                 )
