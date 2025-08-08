@@ -115,6 +115,14 @@ async def post_user(request: User_Profile_Wrapper, db: db_dependency):
         db.rollback()
         raise HTTPException(status_code=500, detail=f'No pudo crearse el usuario especificado: {str(e)}')
 
+# Loggin del la app
+@app.post('/user/login', tags=['gateway'])
+async def login(request: Request):
+    async with httpx.AsyncClient() as client:
+        body = await request.json()
+        response = await client.post(f'{MICROSERVICES['user']}/login', json=body)
+    return response.json()
+
 # Actualizar un usuario
 @app.put('/put_by/{id}', tags=['User'], response_model=User)
 async def update_user(id: str, user: User, db: db_dependency):

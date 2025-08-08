@@ -18,15 +18,20 @@ MICROSERVICES = {
 
 #Ruta para reenviar a user_service
 @app.api_route('/{service}/{path:path}', methods=['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
-async def gateway(service: str, path: str, request: Request):
+async def proxy(service: str, path: str, request: Request):
     if service not in MICROSERVICES:
         raise HTTPException(status_code=404, detail='Servicio no encontrado')
 
-    url = f'{MICROSERVICES[service]}/{path}'
-    method = request.method
-    headers = dict(request.headers)
-    body = await request.body()
-
     async with httpx.AsyncClient() as client:
-        response = await client.request(method, url, headers=headers, content=body)
-        return response.json()
+        body = await request.body()
+        headers =  dict(request.headers)
+        target_url = f'{MICROSERVICES[service]}/{path}'
+
+        response = await client.request(
+            method = request.method, 
+            url = target_url, 
+            headers=headers, 
+            content=body
+        )
+    
+    return response.json()
