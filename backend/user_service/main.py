@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from passlib.context import CryptContext
 from security import get_current_user
@@ -120,7 +120,7 @@ async def post_user(request: User_Profile_Wrapper, db: db_dependency):
 async def login(request: Request):
     async with httpx.AsyncClient() as client:
         body = await request.json()
-        response = await client.post(f'{MICROSERVICES['user']}/login', json=body)
+        response = await client.post(f"{MICROSERVICES['user']}/login", json=body)
     return response.json()
 
 # Actualizar un usuario
