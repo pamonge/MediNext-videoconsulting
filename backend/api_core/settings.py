@@ -128,13 +128,13 @@ USE_TZ = True
 
 # Media Files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/app/media' # <<< Cambiado para Docker
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = '/app/staticfiles'  # <<< Cambiado para Docker
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -163,6 +163,33 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://frontend:3000",  # <<< Nombre del servidor en Docker
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
+# Para desarrollo
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+
+# Configuración de seguridad para Docker
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+# Configuración de logging para Docker
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}

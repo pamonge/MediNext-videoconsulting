@@ -31,7 +31,7 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 
 ### Backend
 - ⚙️ Python 3.11+
-- ⚡ FastAPI
+- ⚡ Django REST
 - 🧪 Pydantic
 - 🐘 PostgreSQL
 - 🐳 Docker + Docker Compose
@@ -44,12 +44,22 @@ Bienvenido a una plataforma moderna, escalable y segura para gestionar videocons
 
 #### Levantar la app
 
-sudo docker-compose up --build
+##### Desde el directorio raíz de tu proyecto
+docker-compose up --build
 
-#### Corroborar que los servicios esten activos
+##### Ejecutar en segundo plano
+docker-compose up -d
 
-sudo docker-compose ps
+##### Ver logs específicos
+docker-compose logs -f backend
+docker-compose logs -f frontend
 
-#### Acceder a Swagger por microservicio
+##### Ejecutar comandos Django
+docker-compose exec backend python manage.py makemigrations
+docker-compose exec backend python manage.py createsuperuser
 
-http://localhost:800[x]/docs
+##### Parar todo
+docker-compose down
+
+##### Parar y eliminar volúmenes (cuidado: elimina datos)
+docker-compose down -v

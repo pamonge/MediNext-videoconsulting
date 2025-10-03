@@ -1,25 +1,17 @@
-# Imagen base con Node.js
-FROM node:20-alpine3.20
+# ./frontend/vite-app/Dockerfile
+FROM node:18-alpine
 
-# Actualiza npm primero
-RUN npm install -g npm@latest
-
-# Crear directorio de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json
+# Copiar package.json e instalar dependencias
 COPY package*.json ./
-
-# Instalar dependencias
 RUN npm install
 
-# Copiar el resto de la app
+# Copiar el resto de la aplicación
 COPY . .
 
-RUN npm run build 
-
-# Exponer el puerto que usa Vite por defecto
+# Exponer puerto
 EXPOSE 3000
 
-# Comando para iniciar la app en modo desarrollo
-CMD ["npm", "run", "dev", "--", "--host"]
+# Comando para desarrollo
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
